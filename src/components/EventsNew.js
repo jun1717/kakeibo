@@ -5,6 +5,8 @@ import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import firebase from "firebase";
+
 // import PropTypes from 'prop-types';
 import { postEvent } from '../actions';
 
@@ -27,6 +29,18 @@ class EventsNew extends Component {
     );
   }
   async onSubmit(values) {
+    const db = firebase.firestore();
+    db.collection('todos').add({
+      title: values.title,
+      body: values.body,
+    })
+      .then((docRef) => {
+        console.log('success', docRef);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    console.log('vaues', values);
     await this.props.postEvent(values);
     this.props.history.push('/');
   }

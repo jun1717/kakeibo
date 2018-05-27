@@ -3,12 +3,24 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import { Link } from 'react-router-dom';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
+import firebase from "firebase";
+
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd, { MapsTransferWithinAStation } from 'material-ui/svg-icons/content/add';
 // import PropTypes from 'prop-types';
 import { readEvents } from '../actions';
 
 class EventsIndex extends Component {
+  componentWillMount() {
+    firebase.firestore().collection(`todos`)
+      .onSnapshot((snapshot) => {
+        const list = [];
+        snapshot.forEach((doc) => {
+          list.push({ ...doc.data(), key: doc.id });
+        });
+        console.log('list', list);
+      });
+  }
   componentDidMount() {
     this.props.readEvents();
   }
