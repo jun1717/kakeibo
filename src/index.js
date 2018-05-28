@@ -7,7 +7,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import createLogger from 'redux-logger';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import firebase from "firebase";
+import firebase from 'firebase';
 import './index.css';
 import reducer from './reducers';
 import EventsIndex from './components/EventsIndex';
@@ -17,7 +17,7 @@ import ENV from './env.json';
 
 import registerServiceWorker from './registerServiceWorker';
 
-require("firebase/firestore");
+require('firebase/firestore');
 
 const enhancer = process.env.MODE_ENV === 'development' ?
   composeWithDevTools(applyMiddleware(thunk, createLogger)) : applyMiddleware(thunk, createLogger);
@@ -46,5 +46,6 @@ ReactDOM.render(
       </BrowserRouter>
     </Provider>
   </MuiThemeProvider>,
-  document.getElementById('root'));
+  document.getElementById('root'),
+);
 registerServiceWorker();
