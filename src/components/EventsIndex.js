@@ -1,54 +1,53 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import _ from 'lodash';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
-import firebase from "firebase";
+import firebase from 'firebase';
 
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ContentAdd, { MapsTransferWithinAStation } from 'material-ui/svg-icons/content/add';
-// import PropTypes from 'prop-types';
+import ContentAdd from 'material-ui/svg-icons/content/add';
+
 import { readEvents } from '../actions';
 
 class EventsIndex extends Component {
   componentWillMount() {
-    firebase.firestore().collection(`todos`)
+    firebase.firestore().collection('todos')
       .onSnapshot((snapshot) => {
         const list = [];
         snapshot.forEach((doc) => {
           list.push({ ...doc.data(), key: doc.id });
         });
         console.log('list', list);
+        this.props.readEvents(list);
       });
   }
-  componentDidMount() {
-    this.props.readEvents();
-  }
+
   renderEvents() {
-    return _.map(this.props.events, event => (
-      <TableRow key={event.id}>
-        <TableRowColumn>{event.id}</TableRowColumn>
+    console.log(this.props.todoList);
+    return this.props.todoList.map((todo, index) => (
+      <TableRow key={todo.key}>
+        <TableRowColumn>{index}</TableRowColumn>
         <TableRowColumn>
-          <Link to={`/events/${event.id}`}>
-            {event.title}
+          <Link to={`/events/${todo.key}`}>
+            {todo.title}
           </Link>
         </TableRowColumn>
-        <TableRowColumn>{event.body}</TableRowColumn>
+        <TableRowColumn>{todo.body}</TableRowColumn>
       </TableRow>
-    ))
+    ));
   }
   render() {
     const style = {
-      position: "fixed",
+      position: 'fixed',
       right: 12,
       bottom: 12,
-    }
+    };
     return (
       <React.Fragment>
         <FloatingActionButton style={style} containerElement={<Link to="/events/new" />} >
           <ContentAdd />
         </FloatingActionButton>
-
         <Table>
           <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
             <TableRow>
@@ -65,11 +64,24 @@ class EventsIndex extends Component {
     );
   }
 }
-const mapStateToProps = state => (
-  { events: state.events }
-)
+
+EventsIndex.propTypes = {
+  todoList: PropTypes.arrayOf(PropTypes.shape({
+    body: PropTypes.string,
+    title: PropTypes.string,
+  })).isRequired,
+};
+// EventsIndex.defaultProps = {
+//   snackbarFlag: false,
+// };
+const mapStateToProps = state => ({
+  todoList: state.events.todoList,
+  id: state.events.id,
+  snackbarFlag: state.events.snackbarFlag,
+});
+
 const mapDispatchToProps = ({
   readEvents,
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventsIndex);

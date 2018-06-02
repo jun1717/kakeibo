@@ -5,18 +5,28 @@ import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-import firebase from "firebase";
 
 // import PropTypes from 'prop-types';
 import { postEvent } from '../actions';
 
 class EventsNew extends Component {
-  constructor(props) {
+  constructor() {
     super();
     this.onSubmit = this.onSubmit.bind(this);
   }
+  onSubmit(values) {
+    this.props.postEvent(values);
+    this.props.history.push('/');
+  }
+  /* eslint class-methods-use-this: [error, {exceptMethods: [renderField]}] */
   renderField(field) {
-    const { input, label, type, meta: { touched, error } } = field;
+    console.log(field);
+    const {
+      input,
+      label,
+      type,
+      meta: { touched, error },
+    } = field;
     return (
       <TextField
         hintText={label}
@@ -28,24 +38,13 @@ class EventsNew extends Component {
       />
     );
   }
-  async onSubmit(values) {
-    const db = firebase.firestore();
-    db.collection('todos').add({
-      title: values.title,
-      body: values.body,
-    })
-      .then((docRef) => {
-        console.log('success', docRef);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    console.log('vaues', values);
-    await this.props.postEvent(values);
-    this.props.history.push('/');
-  }
   render() {
-    const { handleSubmit, pristine, submitting, invalid } = this.props;
+    const {
+      handleSubmit,
+      pristine,
+      submitting,
+      invalid,
+    } = this.props;
     const style = { margin: 12 };
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>
@@ -64,13 +63,13 @@ class EventsNew extends Component {
 
 const mapDispatchToProps = ({
   postEvent,
-})
+});
 
 const validate = values => {
   const errors = {};
-  if (!values.title) errors.title = "Enter a title,please";
-  if (!values.body) errors.body = "Enter a body,please";
+  if (!values.title) errors.title = 'Enter a title,please';
+  if (!values.body) errors.body = 'Enter a body,please';
   return errors;
-}
+};
 
 export default connect(null, mapDispatchToProps)(reduxForm({ validate, form: 'eventNewForm' })(EventsNew));
