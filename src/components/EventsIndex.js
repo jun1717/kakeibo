@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
 import AppBar from 'material-ui/AppBar';
+import AddPage from 'material-ui/svg-icons/action/note-add';
+import IconButton from 'material-ui/IconButton';
+
 
 import firebase from 'firebase';
-
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ContentAdd from 'material-ui/svg-icons/content/add';
 
 import { readEvents } from '../actions';
 
@@ -45,6 +45,11 @@ class EventsIndex extends Component {
         right: 12,
         bottom: 12,
       },
+      addButton: {
+        height: 48,
+        width: 48,
+        color: 'white',
+      },
       container: {
         margin: '0px 100px 0px 30px',
       },
@@ -53,10 +58,11 @@ class EventsIndex extends Component {
       <React.Fragment>
         <AppBar
           title="家計簿"
-        />
-        <FloatingActionButton style={style.button} containerElement={<Link to="/events/new" />} >
-          <ContentAdd />
-        </FloatingActionButton>
+        >
+          <IconButton iconStyle={style.addButton} containerElement={<Link to="/events/new" />}>
+            <AddPage />
+          </IconButton>
+        </AppBar>
         <div style={style.container}>
           <Table>
             <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
