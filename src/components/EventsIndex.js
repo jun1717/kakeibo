@@ -24,12 +24,11 @@ class EventsIndex extends Component {
   }
 
   renderEvents() {
-    console.log(this.props.todoList);
-    return this.props.todoList.map((todo, index) => (
+    return this.props.todoList.map(todo => (
       <TableRow key={todo.key}>
-        <TableRowColumn>{index}</TableRowColumn>
+        <TableRowColumn>{todo.id}</TableRowColumn>
         <TableRowColumn>
-          <Link to={`/events/${todo.key}`}>
+          <Link to={`/events/${todo.id}`}>
             {todo.title}
           </Link>
         </TableRowColumn>
@@ -39,27 +38,34 @@ class EventsIndex extends Component {
   }
   render() {
     const style = {
-      position: 'fixed',
-      right: 12,
-      bottom: 12,
+      button: {
+        position: 'fixed',
+        right: 12,
+        bottom: 12,
+      },
+      container: {
+        margin: '0px 100px 0px 30px',
+      },
     };
     return (
       <React.Fragment>
-        <FloatingActionButton style={style} containerElement={<Link to="/events/new" />} >
+        <FloatingActionButton style={style.button} containerElement={<Link to="/events/new" />} >
           <ContentAdd />
         </FloatingActionButton>
-        <Table>
-          <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-            <TableRow>
-              <TableHeaderColumn>ID</TableHeaderColumn>
-              <TableHeaderColumn>Title</TableHeaderColumn>
-              <TableHeaderColumn>Body</TableHeaderColumn>
-            </TableRow>
-          </TableHeader>
-          <TableBody displayRowCheckbox={false}>
-            {this.renderEvents()}
-          </TableBody>
-        </Table>
+        <div style={style.container}>
+          <Table>
+            <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+              <TableRow>
+                <TableHeaderColumn>ID</TableHeaderColumn>
+                <TableHeaderColumn>Title</TableHeaderColumn>
+                <TableHeaderColumn>Body</TableHeaderColumn>
+              </TableRow>
+            </TableHeader>
+            <TableBody displayRowCheckbox={false}>
+              {this.renderEvents()}
+            </TableBody>
+          </Table>
+        </div>
       </React.Fragment >
     );
   }
