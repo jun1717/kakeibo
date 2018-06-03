@@ -5,6 +5,9 @@ import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import AppBar from 'material-ui/AppBar';
+import AddPage from 'material-ui/svg-icons/action/note-add';
+import IconButton from 'material-ui/IconButton';
 
 // import PropTypes from 'prop-types';
 import { postEvent } from '../actions';
@@ -45,18 +48,41 @@ class EventsNew extends Component {
       submitting,
       invalid,
     } = this.props;
-    const style = { margin: 12 };
+    const style = {
+      button: {
+        position: 'fixed',
+        right: 12,
+        bottom: 12,
+      },
+      addButton: {
+        height: 48,
+        width: 48,
+        color: 'white',
+      },
+      submitButton: {
+        margin: 12,
+      },
+    };
     return (
-      <form onSubmit={handleSubmit(this.onSubmit)}>
-        <div>
-          <Field label="Title" name="title" type="text" component={this.renderField} />
-        </div>
-        <div>
-          <Field label="Body" name="body" type="text" component={this.renderField} />
-        </div>
-        <RaisedButton label="Submit" type="submit" style={style} disabled={pristine || submitting || invalid} />
-        <RaisedButton label="Cancel" style={style} containerElement={<Link to="/" />} />
-      </form >
+      <React.Fragment>
+        <AppBar
+          title="家計簿"
+        >
+          <IconButton iconStyle={style.addButton} containerElement={<Link to="/events/new" />}>
+            <AddPage />
+          </IconButton>
+        </AppBar>
+        <form onSubmit={handleSubmit(this.onSubmit)}>
+          <div>
+            <Field label="Title" name="title" type="text" component={this.renderField} />
+          </div>
+          <div>
+            <Field label="Body" name="body" type="text" component={this.renderField} />
+          </div>
+          <RaisedButton label="Submit" type="submit" style={style.submitButton} disabled={pristine || submitting || invalid} />
+          <RaisedButton label="Cancel" style={style.submitButton} containerElement={<Link to="/" />} />
+        </form >
+      </React.Fragment>
     );
   }
 }
