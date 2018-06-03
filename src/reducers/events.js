@@ -1,5 +1,5 @@
 import firebase from 'firebase';
-import { READ_EVENTS, CREATE_EVENT, DELETE_EVENT } from '../actions';
+import { READ_EVENTS, CREATE_EVENT, DELETE_EVENT, UPDATE_EVENT } from '../actions';
 
 
 // 初期 状態
@@ -39,6 +39,25 @@ export default (state = initialState, action) => {
       const keyId = action.payload.key;
       const db = firebase.firestore();
       db.collection('todos').doc(keyId).delete()
+        .then((docRef) => {
+          console.log('success', docRef);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      return {
+        todoList: initialState.todoList,
+      };
+    }
+    case UPDATE_EVENT: {
+      const updateValue = action.payload.value;
+      console.log(updateValue);
+      const db = firebase.firestore();
+      db.collection('todos').doc(updateValue.key).update({
+        id: updateValue.id,
+        title: updateValue.title,
+        body: updateValue.body,
+      })
         .then((docRef) => {
           console.log('success', docRef);
         })

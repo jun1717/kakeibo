@@ -30,9 +30,8 @@ export const deleteEvent = key => ({
 //   type: GET_EVENT,
 //   payload: { todoList },
 // });
-
-export const putEvent = values => async dispatch => {
-  const response = await axios.put(`${ROOT_URL}/events/${values.id}${QUERYSTRING}`, values);
-  dispatch({ type: UPDATE_EVENT, response });
-};
+export const updateEvent = value => ({
+  type: UPDATE_EVENT,
+  payload: { value },
+});
 

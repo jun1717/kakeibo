@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
+import AppBar from 'material-ui/AppBar';
+
 import firebase from 'firebase';
 
 import FloatingActionButton from 'material-ui/FloatingActionButton';
@@ -49,6 +51,9 @@ class EventsIndex extends Component {
     };
     return (
       <React.Fragment>
+        <AppBar
+          title="家計簿"
+        />
         <FloatingActionButton style={style.button} containerElement={<Link to="/events/new" />} >
           <ContentAdd />
         </FloatingActionButton>

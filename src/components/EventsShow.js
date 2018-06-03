@@ -5,7 +5,7 @@ import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-import { deleteEvent, putEvent } from '../actions';
+import { deleteEvent, updateEvent } from '../actions';
 
 class EventsShow extends Component {
   constructor() {
@@ -13,19 +13,15 @@ class EventsShow extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.onDeleteClick = this.onDeleteClick.bind(this);
   }
-  // componentDidMount() {
-  //   console.log('this.props', this.props);
-  //   const { id } = this.props.match.params;
-  //   if (id) this.props.getEvent(id);
-  // }
+
   onDeleteClick() {
     console.log('match', this.props.event);
     const { key } = this.props.event;
     this.props.deleteEvent(key);
     this.props.history.push('/');
   }
-  async onSubmit(values) {
-    await this.props.putEvent(values);
+  onSubmit(values) {
+    this.props.updateEvent(values);
     this.props.history.push('/');
   }
   /* eslint class-methods-use-this: [error, {exceptMethods: [renderField]}] */
@@ -80,7 +76,7 @@ const mapStateToProps = (state, ownProps) => {
   return { initialValues: event, event };
 };
 const mapDispatchToProps = ({
-  deleteEvent, putEvent,
+  deleteEvent, updateEvent,
 });
 
 const validate = values => {
