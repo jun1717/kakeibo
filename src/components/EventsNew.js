@@ -8,6 +8,8 @@ import TextField from 'material-ui/TextField';
 import AppBar from 'material-ui/AppBar';
 import AddPage from 'material-ui/svg-icons/action/note-add';
 import IconButton from 'material-ui/IconButton';
+import Paper from 'material-ui/Paper';
+
 
 // import PropTypes from 'prop-types';
 import { postEvent } from '../actions';
@@ -62,6 +64,16 @@ class EventsNew extends Component {
       submitButton: {
         margin: 12,
       },
+      form: {
+        width: '70%',
+        margin: '0 auto',
+      },
+      paper: {
+        width: '50%',
+        margin: '0 auto',
+        marginTop: 50,
+        padding: '40px 0px',
+      },
     };
     return (
       <React.Fragment>
@@ -72,17 +84,21 @@ class EventsNew extends Component {
             <AddPage />
           </IconButton>
         </AppBar>
-        <form onSubmit={handleSubmit(this.onSubmit)}>
-          <div>
-            <Field label="Title" name="title" type="text" component={this.renderField} />
+        <Paper style={style.paper} zDepth={3} >
+          <div style={style.form}>
+            <form onSubmit={handleSubmit(this.onSubmit)}>
+              <div>
+                <Field label="Title" name="title" type="text" component={this.renderField} />
+              </div>
+              <div>
+                <Field label="Body" name="body" type="text" component={this.renderField} />
+              </div>
+              <RaisedButton label="Submit" type="submit" style={style.submitButton} disabled={pristine || submitting || invalid} />
+              <RaisedButton label="Cancel" style={style.submitButton} containerElement={<Link to="/" />} />
+            </form >
           </div>
-          <div>
-            <Field label="Body" name="body" type="text" component={this.renderField} />
-          </div>
-          <RaisedButton label="Submit" type="submit" style={style.submitButton} disabled={pristine || submitting || invalid} />
-          <RaisedButton label="Cancel" style={style.submitButton} containerElement={<Link to="/" />} />
-        </form >
-      </React.Fragment>
+        </Paper>
+      </React.Fragment >
     );
   }
 }
