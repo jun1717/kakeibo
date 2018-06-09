@@ -8,6 +8,8 @@ import TextField from 'material-ui/TextField';
 import AppBar from 'material-ui/AppBar';
 import AddPage from 'material-ui/svg-icons/action/note-add';
 import IconButton from 'material-ui/IconButton';
+import Paper from 'material-ui/Paper';
+
 import { deleteEvent, updateEvent } from '../actions';
 
 class EventsShow extends Component {
@@ -35,9 +37,6 @@ class EventsShow extends Component {
       type,
       meta: { touched, error },
     } = field;
-    const style = {
-      width: '30%',
-    };
     return (
       <TextField
         hintText={label}
@@ -45,7 +44,7 @@ class EventsShow extends Component {
         type={type}
         errorText={touched && error}
         {...input}
-        style={style}
+        fullWidth
       />
     );
   }
@@ -70,6 +69,16 @@ class EventsShow extends Component {
       submitButton: {
         margin: 12,
       },
+      form: {
+        width: '70%',
+        margin: '0 auto',
+      },
+      paper: {
+        width: '50%',
+        margin: '0 auto',
+        marginTop: 50,
+        padding: '40px 0px',
+      },
     };
     return (
       <React.Fragment>
@@ -80,19 +89,23 @@ class EventsShow extends Component {
             <AddPage />
           </IconButton>
         </AppBar>
-        <form onSubmit={handleSubmit(this.onSubmit)}>
-          <div>
-            <Field label="Title" name="title" type="text" component={this.renderField} />
+        <Paper style={style.paper} zDepth={3} >
+          <div style={style.form}>
+            <form onSubmit={handleSubmit(this.onSubmit)}>
+              <div>
+                <Field label="Title" name="title" type="text" component={this.renderField} />
+              </div>
+              <div>
+                <Field label="Body" name="body" type="text" component={this.renderField} />
+              </div>
+              <div>
+                <RaisedButton label="Submit" type="submit" style={style.submitButton} disabled={pristine || submitting || invalid} />
+                <RaisedButton label="Cancel" style={style.submitButton} containerElement={<Link to="/" />} />
+                <RaisedButton label="Delete" style={style.submitButton} onClick={this.onDeleteClick} />
+              </div>
+            </form>
           </div>
-          <div>
-            <Field label="Body" name="body" type="text" component={this.renderField} />
-          </div>
-          <div>
-            <RaisedButton label="Submit" type="submit" style={style.submitButton} disabled={pristine || submitting || invalid} />
-            <RaisedButton label="Cancel" style={style.submitButton} containerElement={<Link to="/" />} />
-            <RaisedButton label="Delete" style={style.submitButton} onClick={this.onDeleteClick} />
-          </div>
-        </form>
+        </Paper>
       </React.Fragment>
     );
   }

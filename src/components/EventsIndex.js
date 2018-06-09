@@ -6,7 +6,7 @@ import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowCol
 import AppBar from 'material-ui/AppBar';
 import AddPage from 'material-ui/svg-icons/action/note-add';
 import IconButton from 'material-ui/IconButton';
-
+import Paper from 'material-ui/Paper';
 
 import firebase from 'firebase';
 
@@ -51,7 +51,11 @@ class EventsIndex extends Component {
         color: 'white',
       },
       container: {
-        margin: '0px 100px 0px 30px',
+        padding: '50px',
+      },
+      paper: {
+        margin: '50px',
+        width: '50%',
       },
     };
     return (
@@ -63,20 +67,22 @@ class EventsIndex extends Component {
             <AddPage />
           </IconButton>
         </AppBar>
-        <div style={style.container}>
-          <Table>
-            <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-              <TableRow>
-                <TableHeaderColumn>ID</TableHeaderColumn>
-                <TableHeaderColumn>Title</TableHeaderColumn>
-                <TableHeaderColumn>Body</TableHeaderColumn>
-              </TableRow>
-            </TableHeader>
-            <TableBody displayRowCheckbox={false}>
-              {this.renderEvents()}
-            </TableBody>
-          </Table>
-        </div>
+        <Paper style={style.paper} zDepth={2}>
+          <div style={style.container}>
+            <Table>
+              <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+                <TableRow>
+                  <TableHeaderColumn>ID</TableHeaderColumn>
+                  <TableHeaderColumn>Title</TableHeaderColumn>
+                  <TableHeaderColumn>Body</TableHeaderColumn>
+                </TableRow>
+              </TableHeader>
+              <TableBody displayRowCheckbox={false}>
+                {this.renderEvents()}
+              </TableBody>
+            </Table>
+          </div>
+        </Paper>
       </React.Fragment >
     );
   }
