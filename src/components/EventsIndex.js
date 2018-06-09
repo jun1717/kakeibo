@@ -7,12 +7,17 @@ import AppBar from 'material-ui/AppBar';
 import AddPage from 'material-ui/svg-icons/action/note-add';
 import IconButton from 'material-ui/IconButton';
 import Paper from 'material-ui/Paper';
+import Calendar from 'react-calendar';
+
 
 import firebase from 'firebase';
 
 import { readEvents } from '../actions';
 
 class EventsIndex extends Component {
+  state = {
+    date: new Date(),
+  }
   componentWillMount() {
     firebase.firestore().collection('todos')
       .onSnapshot((snapshot) => {
@@ -83,6 +88,9 @@ class EventsIndex extends Component {
             </Table>
           </div>
         </Paper>
+        <Calendar
+          value={this.state.date}
+        />
       </React.Fragment >
     );
   }
