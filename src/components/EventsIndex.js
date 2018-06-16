@@ -13,6 +13,7 @@ import Calendar from 'react-calendar';
 import firebase from 'firebase';
 
 import { readEvents } from '../actions';
+import css from '../style/eventsindex.css';
 
 class EventsIndex extends Component {
   state = {
@@ -44,6 +45,7 @@ class EventsIndex extends Component {
     ));
   }
   render() {
+    console.log(css);
     const style = {
       button: {
         position: 'fixed',
@@ -58,10 +60,10 @@ class EventsIndex extends Component {
       container: {
         padding: '50px',
       },
-      paper: {
-        margin: '50px',
-        width: '50%',
-      },
+      // paper: {
+      //   margin: '50px',
+      //   width: '50%',
+      // },
     };
     return (
       <React.Fragment>
@@ -72,7 +74,7 @@ class EventsIndex extends Component {
             <AddPage />
           </IconButton>
         </AppBar>
-        <Paper style={style.paper} zDepth={2}>
+        <Paper zDepth={2} style={css.paper}>
           <div style={style.container}>
             <Table>
               <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
