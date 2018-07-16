@@ -1,7 +1,15 @@
 .paper{
-    margin: 50px;
+    margin: 5%;
     width: 50%;
-    background-color: aqua;
+}
+
+.calendar{
+    margin: 5%;
+    padding: 10px;
+}
+
+.calendarSize{
+    transform: scale(1.5);
 }
 
 

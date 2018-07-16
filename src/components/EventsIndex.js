@@ -7,17 +7,21 @@ import AppBar from 'material-ui/AppBar';
 import AddPage from 'material-ui/svg-icons/action/note-add';
 import IconButton from 'material-ui/IconButton';
 import Paper from 'material-ui/Paper';
-import Calendar from 'react-calendar';
-
-
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
+import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 import firebase from 'firebase';
 
 import { readEvents } from '../actions';
 import css from '../style/eventsindex.css';
 
 class EventsIndex extends Component {
-  state = {
-    date: new Date(),
+  constructor(props) {
+    super(props);
+    this.state = {
+      startDate: moment(),
+    };
+    this.handleChange = this.handleChange.bind(this);
   }
   componentWillMount() {
     firebase.firestore().collection('todos')
@@ -29,6 +33,11 @@ class EventsIndex extends Component {
         console.log('list', list);
         this.props.readEvents(list);
       });
+  }
+  handleChange(date) {
+    this.setState({
+      startDate: date,
+    });
   }
 
   renderEvents() {
@@ -45,7 +54,6 @@ class EventsIndex extends Component {
     ));
   }
   render() {
-    console.log(css);
     const style = {
       button: {
         position: 'fixed',
@@ -60,10 +68,6 @@ class EventsIndex extends Component {
       container: {
         padding: '50px',
       },
-      // paper: {
-      //   margin: '50px',
-      //   width: '50%',
-      // },
     };
     return (
       <React.Fragment>
@@ -74,7 +78,7 @@ class EventsIndex extends Component {
             <AddPage />
           </IconButton>
         </AppBar>
-        <Paper zDepth={2} style={css.paper}>
+        <Paper zDepth={2} className={css.paper}>
           <div style={style.container}>
             <Table>
               <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
@@ -90,9 +94,14 @@ class EventsIndex extends Component {
             </Table>
           </div>
         </Paper>
-        <Calendar
-          value={this.state.date}
-        />
+        <div className={css.calendar}>
+          <DatePicker
+            inline
+            selected={this.state.startDate}
+            onChange={this.handleChange}
+            calendarClassName={css.calendarSize}
+          />
+        </div>
       </React.Fragment >
     );
   }
